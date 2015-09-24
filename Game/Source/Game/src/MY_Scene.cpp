@@ -66,6 +66,12 @@ MY_Scene::MY_Scene(Game * _game) :
 
 	textShader->textComponent->setColor(glm::vec3(0.0f, 0.0f, 0.0f));
 
+
+	// remove initial camera
+	childTransform->removeChild(cameras.at(0)->parents.at(0));
+	delete cameras.at(0)->parents.at(0);
+	cameras.pop_back();
+
 	//Set up debug camera
 	debugCam = new MousePerspectiveCamera();
 	cameras.push_back(debugCam);
@@ -78,11 +84,6 @@ MY_Scene::MY_Scene(Game * _game) :
 	debugCam->speed = 1;
 
 	activeCamera = debugCam;
-	
-	// remove initial camera
-	childTransform->removeChild(cameras.at(0)->parents.at(0));
-	delete cameras.at(0)->parents.at(0);
-	cameras.pop_back();
 
 	//
 	glm::uvec2 sd = sweet::getScreenDimensions();
