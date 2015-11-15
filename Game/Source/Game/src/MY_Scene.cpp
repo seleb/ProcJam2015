@@ -72,9 +72,15 @@ MY_Scene::MY_Scene(Game * _game) :
 
 	
 	loopSlider = new SliderControlled(uiLayer.world, &drums->curTime, 0, drums->lengthInSeconds);
-	loopSlider->setRationalWidth(1);
 	loopSlider->setHeight(12);
+	loopSlider->setWidth(290);
+	loopSlider->setMarginRight(5);
+	
 
+	bpmSlider = new SliderController(uiLayer.world, &bpm, bpm, 30, 240);
+	bpmSlider->setWidth(290);
+	bpmSlider->setMarginRight(5);
+	bpmSlider->setHeight(12);
 
 
 	uiLayer.addMouseIndicator();
@@ -94,8 +100,6 @@ MY_Scene::MY_Scene(Game * _game) :
 		TextLabel * l = new TextLabel(uiLayer.world, font, textShader);
 		l->setText(L"Time: ");
 		l->setWidth(30);
-		loopSlider->setWidth(280);
-		loopSlider->setMarginRight(5);
 		loopSlider->setBackgroundColour(244.f/255.f, 180.f/255.f, 213.f/255.f, 1);
 		loopSlider->fill->setBackgroundColour(244.f/255.f, 180.f/255.f, 213.f/255.f, 1);
 		loopSlider->thumb->setBackgroundColour(255.f/255.f, 200.f/255.f, 233.f/255.f, 1);
@@ -109,11 +113,6 @@ MY_Scene::MY_Scene(Game * _game) :
 		TextLabel * l = new TextLabel(uiLayer.world, font, textShader);
 		l->setText(L"BPM: ");
 		l->setWidth(30);
-
-		bpmSlider = new SliderController(uiLayer.world, &bpm, bpm, 30, 240);
-		bpmSlider->setWidth(280);
-		bpmSlider->setMarginRight(5);
-		bpmSlider->setHeight(12);
 
 		hl->addChild(l);
 		hl->addChild(bpmSlider);
@@ -232,6 +231,10 @@ MY_Scene::~MY_Scene(){
 void MY_Scene::update(Step * _step){
 	if(keyboard->keyJustDown(GLFW_KEY_SPACE)){
 		generate();
+	}
+
+	if(keyboard->keyJustDown(GLFW_KEY_ESCAPE)){
+		game->exit();
 	}
 
 
