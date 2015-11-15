@@ -17,7 +17,7 @@
 	#include <crtdbg.h>
 #endif
 
-int main(void){
+int WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd, int show){
 #ifdef _DEBUG
 	_CrtMemState s1;
 	_CrtMemCheckpoint( &s1 );
