@@ -46,6 +46,8 @@
 #include <Box2DWorld.h>
 #include <Box2DDebugDrawer.h>
 
+#include <RenderOptions.h>
+
 MY_Scene::MY_Scene(Game * _game) :
 	Scene(_game),
 	screenSurfaceShader(new Shader("assets/engine basics/DefaultRenderSurface", false, true)),
@@ -55,7 +57,7 @@ MY_Scene::MY_Scene(Game * _game) :
 	characterShader(new ComponentShaderBase(true)),
 	textShader(new ComponentShaderText(true)),
 	debugDrawer(nullptr),
-	uiLayer(this, 0,0,0,0),
+	uiLayer(0,0,0,0),
 	box2dWorld(new Box2DWorld(b2Vec2(0.f, -10.0f))),
 	box2dDebug(new Box2DDebugDrawer(box2dWorld))
 {
@@ -85,32 +87,14 @@ MY_Scene::MY_Scene(Game * _game) :
 
 	activeCamera = debugCam;
 
-	//
-	glm::uvec2 sd = sweet::getScreenDimensions();
-	uiLayer.resize(0, sd.x, 0, sd.y);
-
-	// mouse cursor
-	mouseIndicator = new Sprite();
-	uiLayer.childTransform->addChild(mouseIndicator);
-	mouseIndicator->mesh->pushTexture2D(MY_ResourceManager::scenario->getTexture("CURSOR")->texture);
-	mouseIndicator->parents.at(0)->scale(32, 32, 1);
-	mouseIndicator->mesh->scaleModeMag = GL_NEAREST;
-	mouseIndicator->mesh->scaleModeMin = GL_NEAREST;
-
-	for(unsigned long int i = 0; i < mouseIndicator->mesh->vertices.size(); ++i){
-		mouseIndicator->mesh->vertices[i].x += 0.5f;
-		mouseIndicator->mesh->vertices[i].y -= 0.5f;
-	}
-
-	mouseIndicator->mesh->dirty = true;
-	mouseIndicator->setShader(uiLayer.shader, true);
-
 	childTransform->addChild(box2dDebug, false);
 	box2dDebug->drawing = true;
 	box2dWorld->b2world->SetDebugDraw(box2dDebug);
 	box2dDebug->AppendFlags(b2Draw::e_shapeBit);
 	box2dDebug->AppendFlags(b2Draw::e_centerOfMassBit);
 	box2dDebug->AppendFlags(b2Draw::e_jointBit);
+
+	uiLayer.addMouseIndicator();
 }
 
 MY_Scene::~MY_Scene(){
@@ -129,11 +113,7 @@ void MY_Scene::update(Step * _step){
 
 	box2dWorld->update(_step);
 
-	glm::uvec2 sd = sweet::getScreenDimensions();
-	uiLayer.resize(0, sd.x, 0, sd.y);
-
-	mouseIndicator->parents.at(0)->translate(mouse->mouseX(), mouse->mouseY(), 0, false);
-
+	
 	if(keyboard->keyJustDown(GLFW_KEY_F12)){
 		game->toggleFullScreen();
 	}
@@ -163,17 +143,20 @@ void MY_Scene::update(Step * _step){
 
 	debugCam->update(_step);
 
+	glm::uvec2 sd = sweet::getScreenDimensions();
+	uiLayer.resize(0, sd.x, 0, sd.y);
 	Scene::update(_step);
+	uiLayer.update(_step);
 }
 
 void MY_Scene::render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions){
-	clear();
 	screenFBO->resize(game->viewPortWidth, game->viewPortHeight);
 	//Bind frameBuffer
 	screenFBO->bindFrameBuffer();
 	//render the scene to the buffer
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	_renderOptions->clear();
 	Scene::render(_matrixStack, _renderOptions);
 
 	//Render the buffer to the render surface

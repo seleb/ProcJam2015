@@ -12,6 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\MY_Game.cpp" />
+    <ClCompile Include="src\MY_ResourceManager.cpp" />
+    <ClCompile Include="src\MY_Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\MY_Game.h" />
+    <ClInclude Include="include\MY_ResourceManager.h" />
+    <ClInclude Include="include\MY_Scene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{96FE28A2-BB06-4424-ADED-0DEDAEAF84B5}</ProjectGuid>
