@@ -1,9 +1,37 @@
 {
   "assets": [
     {
-      "id": "CURSOR",
+      "id": "SNARE",
+      "type": "audio",
+      "src": "snare.ogg",
+      "stream": false
+    },
+    {
+      "id": "KICK",
+      "type": "audio",
+      "src": "kick.ogg",
+      "stream": false
+    },
+    {
+      "id": "RIDE",
+      "type": "audio",
+      "src": "ride.ogg",
+      "stream": false
+    },
+
+
+    {
+      "id": "COURIER",
+      "type": "font",
+      "src": "cour.ttf",
+      "size": 12
+    },
+
+
+    {
+      "id": "LOGO",
       "type": "texture",
-      "src": "../engine basics/cursor.png"
+      "src": "icon-circle.png"
     }
   ]
 }

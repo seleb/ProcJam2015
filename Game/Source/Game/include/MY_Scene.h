@@ -2,15 +2,11 @@
 
 #include <Scene.h>
 #include <UILayer.h>
-#include <BulletDebugDrawer.h>
-#include <BulletWorld.h>
+#include <Slider.h>
+#include <AutoMusic.h>
 
 class PerspectiveCamera;
 class MousePerspectiveCamera;
-
-class Box2DWorld;
-class Box2DDebugDrawer;
-class Box2DMeshEntity;
 class MeshEntity;
 
 class ShaderComponentHsv;
@@ -23,8 +19,8 @@ class Sprite;
 
 class PointLight;
 
-class BulletMeshEntity;
 class ComponentShaderText;
+class TextLabel;
 
 class MY_Scene : public Scene{
 public:
@@ -32,21 +28,9 @@ public:
 	RenderSurface * screenSurface;
 	StandardFrameBuffer * screenFBO;
 	
-	ComponentShaderBase * baseShader;
-	ComponentShaderBase * characterShader;
 	ComponentShaderText * textShader;
-
-	BulletWorld * bulletWorld;
-	BulletDebugDrawer * debugDrawer;
-	
-	MousePerspectiveCamera * playerCam;
 	
 	Sprite * mouseIndicator;
-	Sprite * crosshair;
-	MousePerspectiveCamera * debugCam;
-
-	Box2DWorld * box2dWorld;
-	Box2DDebugDrawer * box2dDebug;
 
 	virtual void update(Step * _step) override;
 	virtual void render(sweet::MatrixStack * _matrixStack, RenderOptions * _renderOptions) override;
@@ -55,6 +39,14 @@ public:
 	virtual void unload() override;
 
 	UILayer uiLayer;
+
+	AutoDrums * drums;
+	SliderControlled * loopSlider;
+	SliderController * bpmSlider;
+	float bpm;
+	unsigned long int seed;
+	TextLabel * seedLabel;
+	void generate();
 
 	MY_Scene(Game * _game);
 	~MY_Scene();

@@ -24,8 +24,7 @@ int main(void){
 #endif
 
 	Log::THROW_ON_ERROR = true;
-
-	sweet::initialize("Game");
+	sweet::initialize("SweetBeats");
 	MY_ResourceManager::init();
 	MY_ResourceManager::load();
 	MY_Game * game = new MY_Game();
